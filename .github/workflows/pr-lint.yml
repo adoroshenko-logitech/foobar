@@ -9,6 +9,6 @@ jobs:
     - name: Verify Pull Request Labels
       uses: morrisoncole/pr-lint-action@v1.1.0
       with:
-        title-regex: "#VC-[0-9]+"
+        title-regex: "^\[VC-\d+\]"
         on-failed-regex-comment: "This is just an example. Failed regex: `%regex%`!"
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
