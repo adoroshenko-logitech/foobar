@@ -9,10 +9,12 @@ jobs:
     - name: Check if PR has required labels
       env:
         READY_FOR_MERGE: ${{ contains(github.event.pull_request.labels.*.name, 'ready-for-merge') }}
+        ALL_LABELS: ${{ toJson(github.event.pull_request.labels) }}
       run: |
+       echo $ALL_LABELS
        test "${READY_FOR_MERGE}" == "true" || { echo "'ready-for-merge' label was not added to PR"; exit 1; } 
     - name: update-previous-checks
-      uses: adoroshenko-logitech/update-previous-checks@master
+      uses: Logitech/vc-update-gh-actions@v1.0.0
       with:
         github_token: '${{ secrets.GITHUB_TOKEN }}'
         check_name: verify-pr-labels
