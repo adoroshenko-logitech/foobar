@@ -11,7 +11,7 @@ jobs:
         READY_FOR_MERGE: ${{ contains(github.event.pull_request.labels.*.name, 'ready-for-merge') }}
         ALL_LABELS: ${{ toJson(github.event.pull_request.labels) }}
       run: |
-       echo $ALL_LABELS
+       echo $ALL_LABELS | jq '.'
        test "${READY_FOR_MERGE}" == "true" || { echo "'ready-for-merge' label was not added to PR"; exit 1; } 
     - name: update-previous-checks
       uses: Logitech/vc-update-gh-actions@v1.0.0
