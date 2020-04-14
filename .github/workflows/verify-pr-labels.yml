@@ -6,8 +6,13 @@ jobs:
   verify-pr-labels:
     runs-on: ubuntu-latest
     steps:
-    - name: Verify Pull Request Labels
-      uses: jesusvasquez333/verify-pr-label-action@v1.1.0
+    - name: Check if PR has required labels
+      env:
+        READY_FOR_MERGE: ${{ contains(github.event.pull_request.labels.*.name, 'ready-for-merge') }}
+      run: |
+       test "${READY_FOR_MERGE}" == "true" || { echo "'ready-for-merge' label was not added to PR"; exit 1; } 
+    - name: update-previous-checks
+      uses: adoroshenko-logitech/update-previous-checks@master
       with:
-        github-token: '${{ secrets.GITHUB_TOKEN }}'
-        valid-labels: 'ready-for-merge'
+        github_token: '${{ secrets.GITHUB_TOKEN }}'
+        check_name: verify-pr-labels
